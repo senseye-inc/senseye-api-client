@@ -1,0 +1,1 @@
+export SENSEYE_API_AUTH_TOKEN=
