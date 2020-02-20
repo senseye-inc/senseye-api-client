@@ -25,12 +25,12 @@ You can also install it manually by downloading the executable at https://www.ff
 3. Navigate to your Dashboard. In the 'API Credentials' section, click on '+CREATE API CREDENTIAL' > 'CREATE API CREDENTIAL' (no need to fill out the fields). You should now have a 'key' and 'secret' pair.
 
 4. Copy your key/secret into ./scripts/setup-client.sh.
+
 The key should be pasted after `SENSEYE_API_JWT_KEY`.
+
 The secret should be pasted after `SENSEYE_API_JWT_SECRET`.
 
-5. Copy your token from the 'Encoded' section and paste it into ./scripts/setup-client.sh (next to `SENSEYE_API_AUTH_TOKEN=`).
-
-6. Run: `source ./scripts/setup-client.sh`
+5. Run: `source ./scripts/setup-client.sh`
 
 ### Run sample client code
 Now you can successfully connect to our API.
