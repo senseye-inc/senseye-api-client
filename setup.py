@@ -23,5 +23,6 @@ setup(
         'eucalyptus-protos',
         'senseye_cameras==v1.0.4',
         'pyyaml',
+        'pyjwt',
     ],
 )

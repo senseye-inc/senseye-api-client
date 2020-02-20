@@ -1,6 +1,8 @@
+import os
 import grpc
 import logging
 import queue
+import jwt
 from senseye_cameras import Stream
 
 from eucalyptus_protos.gateway_service_pb2_grpc import GatewayStub
@@ -11,18 +13,25 @@ log = logging.getLogger(__name__)
 
 
 class EucalyptusApi():
-    def __init__(self, token=None, url=None, secure=False, certificate=None, store=False):
+    def __init__(self, url=None, secure=False, certificate=None, store=False):
         # Load API Config
         config = load_config()
-        metadata = []
 
-        # Set config options if provided
-        if token:
-            metadata.append(('authorization', f'Bearer {token}'))
+        # add the jwt token to request metadata
+        try:
+            key = os.environ['SENSEYE_API_JWT_KEY']
+            secret = os.environ['SENSEYE_API_JWT_SECRET']
+            token = jwt.encode({'iss': key}, secret, algorithm='HS256').decode("utf-8")
+            config['request_metadata'] = [('authorization', f'Bearer {token}')]
+        except:
+            log.warning('''
+            JWT token could not be generated.
+            Ensure environment variables SENSEYE_API_JWT_KEY and SENSEYE_API_JWT_SECRET are set.
+            You can get a token/key from http://dev.senseye.co.''')
+
+        # add api url to the config
         if url:
             config['api_url'] = url
-
-        config['request_metadata'] = metadata
 
         self.config = config
         self.channel = None
@@ -61,7 +70,7 @@ class EucalyptusApi():
             log.info("Connecting API to server")
             self.connect()
 
-        h264_chunks = queue.Queue()
+        h264_chunks = queue.Queue(maxsize=100)
 
         s = Stream(
             input_type=camera_type, id=camera_id,
