@@ -6,7 +6,7 @@ import logging
 from senseye_cameras import Stream
 
 from senseye_api_protos.gateway_service_pb2_grpc import GatewayStub
-from senseye_api_protos.compute_service_pb2 import VideoStreamRequest
+from senseye_api_protos.compute_service_pb2 import VideoStreamRequest, VideoStaticRequest
 from . utils import video_config, load_config
 
 log = logging.getLogger(__name__)
@@ -64,8 +64,19 @@ class SenseyeApiClient():
         '''
         self.channel.close()
 
+    def video(self, video_uri):
+        if not self.channel:
+            log.info("Connecting API to server")
+            self.connect()
 
-    def h264_stream(self, camera_type, camera_id):
+        return self.stub.AnalyzeVideo(
+            VideoStaticRequest(
+                video_uri=video_uri,
+            ),
+            metadata=self.config['request_metadata']
+        )
+
+    def camera_stream(self, camera_type, camera_id):
         if not self.channel:
             log.info("Connecting API to server")
             self.connect()
