@@ -12,7 +12,7 @@ from . utils import video_config, load_config
 log = logging.getLogger(__name__)
 
 
-class EucalyptusApi():
+class SenseyeApi():
     def __init__(self, url=None, secure=False, certificate=None, store=False):
         # Load API Config
         config = load_config()

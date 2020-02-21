@@ -1,9 +1,9 @@
-# Eucalyptus
+# Senseye API
 
-## How to ping the Eucalyptus server:
+## How to ping the Senseye API:
 
-### Clone repository (master)
-`git clone -b master git@github.com:senseyeinc/eucalyptus-client.git`
+### Clone repository
+`git clone git@github.com:senseyeinc/senseye-api.git`
 
 ### Install client library
 `pip install .`

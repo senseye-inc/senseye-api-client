@@ -1,6 +1,6 @@
 import os
 import time
-from eucalyptus_client import EucalyptusApi
+from senseye_api import SenseyeApi
 
 '''
 Sends frames from a camera to the Eucalyptus API.
@@ -18,7 +18,7 @@ CAMERA_TYPE = 'usb'     # generic usb camera
 response_number = 0
 start_time = time.time()
 
-api = EucalyptusApi(url=API_URL)
+api = SenseyeApi(url=API_URL)
 for response in api.h264_stream(CAMERA_TYPE, CAMERA_ID):
     response_number += 1
     fps = response_number / (time.time() - start_time)

@@ -5,18 +5,18 @@ readme = str(Path(Path(__file__).parent.absolute(), 'README.md'))
 long_description = open(readme, encoding='utf-8').read()
 
 setup(
-    name='eucalyptus-client',
+    name='senseye-api',
     description='Client code for Senseye\'s Eucalyptus API.',
     author='Senseye Inc',
     version='0.1.0',
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=[
-        'eucalyptus_client',
-        'eucalyptus_client.interceptors',
+        'senseye_api',
+        'senseye_api.interceptors',
     ],
     package_dir={
-        'eucalyptus_client': 'eucalyptus_client',
+        'senseye_api': 'senseye_api',
     },
     install_requires=[
         'grpcio',
