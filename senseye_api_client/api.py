@@ -5,8 +5,8 @@ import queue
 import logging
 from senseye_cameras import Stream
 
-from senseye_api_client.gateway_service_pb2_grpc import GatewayStub
-from senseye_api_client.compute_service_pb2 import VideoStreamRequest
+from senseye_api_protos.gateway_service_pb2_grpc import GatewayStub
+from senseye_api_protos.compute_service_pb2 import VideoStreamRequest
 from . utils import video_config, load_config
 
 log = logging.getLogger(__name__)
