@@ -3,7 +3,7 @@
 ## How to ping the Senseye API:
 
 ### Clone repository
-`git clone git@github.com:senseyeinc/senseye-api.git`
+`git clone git@github.com:senseyeinc/senseye-api-client.git`
 
 ### Install client library
 `pip install .`

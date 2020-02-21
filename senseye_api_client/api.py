@@ -1,18 +1,18 @@
 import os
-import grpc
-import logging
-import queue
 import jwt
+import grpc
+import queue
+import logging
 from senseye_cameras import Stream
 
-from eucalyptus_protos.gateway_service_pb2_grpc import GatewayStub
-from eucalyptus_protos.compute_service_pb2 import VideoStreamRequest
+from senseye_api_client.gateway_service_pb2_grpc import GatewayStub
+from senseye_api_client.compute_service_pb2 import VideoStreamRequest
 from . utils import video_config, load_config
 
 log = logging.getLogger(__name__)
 
 
-class SenseyeApi():
+class SenseyeApiClient():
     def __init__(self, url=None, secure=False, certificate=None, store=False):
         # Load API Config
         config = load_config()

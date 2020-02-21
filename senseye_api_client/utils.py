@@ -4,7 +4,7 @@ import uuid
 
 import yaml
 
-from eucalyptus_protos.common_pb2 import VideoConfig, Feature
+from senseye_api_protos.common_pb2 import VideoConfig, Feature
 
 # Default Config Path ~/.config/senseye.yaml
 DEFAULT_CONFIG_PATH = (Path.home() / '.config' / 'senseye.yaml').absolute()
