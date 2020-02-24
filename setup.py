@@ -25,4 +25,9 @@ setup(
         'pyyaml',
         'pyjwt',
     ],
+    project_urls={
+        "Homepage": "http://senseye.co/",
+        "Documentation": "https://senseye-api-client.readthedocs.io/en/latest/",
+        "Source Code": "https://github.com/senseyeinc/senseye-api-client",
+    },
 )
