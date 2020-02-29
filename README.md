@@ -1,39 +1,26 @@
-# Senseye API
+<p align="center">
+ <img width="75%" height="75%" src="https://senseye.co/wp-content/uploads/2019/07/logo.svg">
+</p>
 
-## How to ping the Senseye API:
+<p align="center">
+  Example client-side code for use with the Senseye API in Python. 
+</p>
 
-### Clone repository
-`git clone git@github.com:senseyeinc/senseye-api-client.git`
+<p align="center">
+ <img src="https://img.shields.io/github/v/release/senseyeinc/senseye-api-client?label=release">
+ <img src="https://img.shields.io/github/license/senseyeinc/senseye-api-client">
+</p>
 
-### Install client library
-`pip install .`
+## Documentation
 
-### Install ffmpeg
-Our client code relies on ffmpeg for h264 video streaming.
+Our documentation can be found at: https://senseye-api-client.readthedocs.io/
 
-* Windows: `choco install ffmpeg`
-* Mac: `brew install ffmpeg`
-* Linux: `sudo apt-get install ffmpeg`
+For FAQs please visit https://support.senseye.co. 
 
-You can also install it manually by downloading the executable at https://www.ffmpeg.org/download.html, and then adding the file (ffmpeg) to your system path.
+## Contributing
 
-### Get an API Key
-1. Go to http://dev.senseye.co
+To report an issue or to contribute, please visit: https://github.com/senseyeinc/senseye-api-client. Before submitting a bug or pull request, please take a second to review the [contribution guidelines](https://www.youtube.com).
 
-2. Sign Up / Login
+## License
 
-3. Navigate to your Dashboard. In the 'API Credentials' section, click on '+CREATE API CREDENTIAL' > 'CREATE API CREDENTIAL' (no need to fill out the fields). You should now have a 'key' and 'secret' pair.
-
-4. Copy your key/secret into ./scripts/setup-client.sh.
-
-The key should be pasted after `SENSEYE_API_JWT_KEY`.
-
-The secret should be pasted after `SENSEYE_API_JWT_SECRET`.
-
-5. Run: `source ./scripts/setup-client.sh`
-
-### Run sample client code
-Now you can successfully connect to our API.
-
-Example code can be found in the examples folder.
-For example, a simple camera stream can be sent to our API via: `python examples/camera_stream.py`
+Senseye-Api-Client is available under the [BSD License 2.0](https://opensource.org/licenses/BSD-3-Clause).
