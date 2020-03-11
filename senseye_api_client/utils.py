@@ -4,15 +4,15 @@ import uuid
 
 import yaml
 
-from senseye_api_protos.common_pb2 import VideoConfig, Feature
+from senseye_api_protos.common_pb2 import VideoConfig, CvModel
 
 # Default Config Path ~/.config/senseye.yaml
 DEFAULT_CONFIG_PATH = (Path.home() / '.config' / 'senseye.yaml').absolute()
 
 
-def video_config(shape, features=(Feature.UNET_METRICS,), store=False):
+def video_config(shape, cv_models=(CvModel.UNET_METRICS,), store=False):
     return VideoConfig(
-        features=features,
+        cv_models=cv_models,
         width=shape[1],
         height=shape[0],
         channels=1 if len(shape) == 2 else shape[2],
