@@ -3,3 +3,4 @@ docs/build
 *.egg-info
 build/
 dist/
+senseye_api_client/proto/*pb2*.py
