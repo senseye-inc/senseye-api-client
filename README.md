@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  Example client-side code for use with the Senseye API in Python. 
+  Example client-side code for use with the Senseye API in Python.
 </p>
 
 <p align="center">
@@ -15,7 +15,7 @@
 
 Our documentation can be found at: https://senseye-api-client.readthedocs.io/
 
-For FAQs please visit https://support.senseye.co. 
+For FAQs please visit https://support.senseye.co.
 
 ## Contributing
 

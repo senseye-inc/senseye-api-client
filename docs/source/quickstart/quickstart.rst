@@ -29,6 +29,7 @@ Using senseye-api-client
 
 2. Install Client Library
 
+Run: ``python setup.py build_py``
 Run: ``pip install .``
 
 3. Get an API Key.

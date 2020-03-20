@@ -4,7 +4,7 @@ import uuid
 
 import yaml
 
-from senseye_api_protos.common_pb2 import VideoConfig, CvModel
+from . proto.common_pb2 import VideoConfig, CvModel
 
 # Default Config Path ~/.config/senseye.yaml
 DEFAULT_CONFIG_PATH = (Path.home() / '.config' / 'senseye.yaml').absolute()

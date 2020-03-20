@@ -8,7 +8,7 @@ from io import BytesIO
 readme = str(Path(Path(__file__).parent.absolute(), 'README.md'))
 long_description = open(readme, encoding='utf-8').read()
 
-PROTO_VERSION = 'release/v0.1.0'
+PROTO_VERSION = 'release/v0.3.1'
 
 
 class BuildPyCommand(build_py):
@@ -45,7 +45,6 @@ setup(
     },
     install_requires=[
         'grpcio',
-        'senseye-api-protos',
         'senseye-cameras==v1.0.4',
         'pyyaml',
         'pyjwt',

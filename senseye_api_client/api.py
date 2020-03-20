@@ -5,8 +5,8 @@ import queue
 import logging
 from senseye_cameras import Stream
 
-from senseye_api_protos.gateway_service_pb2_grpc import GatewayStub
-from senseye_api_protos.compute_service_pb2 import VideoStreamRequest, VideoStaticRequest
+from . proto.gateway_service_pb2_grpc import GatewayStub
+from . proto.common_pb2 import VideoStreamRequest, VideoStaticRequest, CvModel
 from . utils import video_config, load_config
 
 log = logging.getLogger(__name__)
@@ -69,8 +69,11 @@ class SenseyeApiClient():
             log.info("Connecting API to server")
             self.connect()
 
-        return self.stub.AnalyzeVideo(
+        yield self.stub.AnalyzeVideo(
             VideoStaticRequest(
+                cv_models=[1],
+                insight_models=[1],
+                orm_experiments=[1],
                 video_uri=video_uri,
             ),
             metadata=self.config['request_metadata']

@@ -21,4 +21,4 @@ api = SenseyeApiClient(url=API_URL)
 for response in api.camera_stream(CAMERA_TYPE, CAMERA_ID):
     response_number += 1
     fps = response_number / (time.time() - start_time)
-    print(f"Receiving Response {response_number}, overall fps: {fps}, reponse: {response}")
+    print(f"Receiving response {response_number}, overall fps: {fps}, contents: {response}")
