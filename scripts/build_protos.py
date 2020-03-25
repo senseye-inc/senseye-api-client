@@ -40,21 +40,27 @@ def build_protos(input_path='build/protobuf', output_path='senseye_api_client/pr
     print(f"Output: {output_path}")
 
     # Get proto file list
-    proto_files = [str(f) for f in input_path.glob('*.proto')]
-    print(input_path)
+    proto_files = [str(f) for f in input_path.glob('**/*.proto')]
+
     # Build Protos with protoc module
     protoc.main([
         '', # Needed :(
+        # Add Google's base protos
+        f'-I{Path(protoc.__file__).parent / "_proto"}',
+        # Add Senseye's protos
+        f'-I{input_path}',
         f'--python_out={output_path}',
         f'--grpc_python_out={output_path}',
-        f'-I{input_path}',
         *proto_files
     ])
 
     # Replace module names
-    for file in output_path.glob('*pb2*.py'):
+    for file in output_path.glob('**/*pb2*.py'):
         with open(file, 'r') as f:
             content = re.sub(r'^(import.*_pb2)', r'from . \1', f.read(), flags=re.M)
 
         with open(file, 'w') as f:
             f.write(content)
+
+        with open(output_path / 'senseye/__init__.py', 'w') as f:
+            f.write('\n')

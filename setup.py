@@ -1,19 +1,21 @@
+from pathlib import Path
 from setuptools import setup
 from setuptools.command.build_py import build_py
 
-from pathlib import Path
-from zipfile import ZipFile
-from io import BytesIO
+
+PROTO_VERSION = 'release/v0.3.1'
 
 readme = str(Path(Path(__file__).parent.absolute(), 'README.md'))
 long_description = open(readme, encoding='utf-8').read()
 
-PROTO_VERSION = 'release/v0.3.1'
+# Temporary directory to build 'senseye' package
+Path('build/senseye').mkdir(exist_ok=True, parents=True)
 
 
 class BuildPyCommand(build_py):
-    """Build Hook"""
-
+    """
+    Build Hook
+    """
     def run(self):
         from scripts.build_protos import get_protos, build_protos
 
@@ -23,10 +25,10 @@ class BuildPyCommand(build_py):
         # Build Proto Files
         build_protos(
             input_path='build/protobuf',
-            output_path='senseye_api_client/proto'
+            output_path='build'
         )
-        build_py.run(self)
 
+        build_py.run(self)
 
 setup(
     name='senseye-api-client',
@@ -36,12 +38,16 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=[
+        'senseye',
         'senseye_api_client',
         'senseye_api_client.interceptors',
-        'senseye_api_client.proto',
     ],
     package_dir={
+        'senseye': 'build/senseye',
         'senseye_api_client': 'senseye_api_client',
+    },
+    package_data={
+        "senseye": ["**/*.py"],
     },
     install_requires=[
         'grpcio',
@@ -57,5 +63,5 @@ setup(
     cmdclass={
         # Custom Build hook
         'build_py': BuildPyCommand,
-    },
+    }
 )
