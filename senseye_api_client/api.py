@@ -1,13 +1,14 @@
-import os
-import jwt
 import grpc
-import queue
+import jwt
 import logging
-from senseye_cameras import Stream
+import os
+import queue
 
-from . proto.gateway_service_pb2_grpc import GatewayStub
-from . proto.common_pb2 import VideoStreamRequest, VideoStaticRequest, CvModel
+from senseye.common.common_pb2 import VideoStreamRequest, VideoStaticRequest, CvModel
+from senseye.gateway.gateway_service_pb2_grpc import GatewayStub
+from senseye_cameras import Stream
 from . utils import video_config, load_config
+
 
 log = logging.getLogger(__name__)
 
