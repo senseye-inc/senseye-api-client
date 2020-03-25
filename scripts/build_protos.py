@@ -37,7 +37,8 @@ def build_protos(input_path='build/protobuf', output_path='senseye_api_client/pr
     output_path.mkdir(exist_ok=True, parents=True)
 
     print("Building Protos...")
-    print(f"Output: {output_path}")
+    print(f"Protos path: {input_path}")
+    print(f"Output path: {output_path}")
 
     # Get proto file list
     proto_files = [str(f) for f in input_path.glob('**/*.proto')]
