@@ -1,0 +1,9 @@
+grpc_url: apeye.senseye.co:27000
+rest_url: http://apeye.senseye.co:80
+secure:
+  enabled: False
+  cert_file:
+jwt:
+  key: <REPLACE_THIS>
+  secret: <REPLACE_THIS>
+store_video: False

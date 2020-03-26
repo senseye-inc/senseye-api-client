@@ -1,14 +1,18 @@
+import logging
 import os
 import uuid
 from pathlib import Path
 
+import jwt
 import yaml
 
 from senseye.common.common_pb2 import VideoConfig, CvModel
 
 
+log = logging.getLogger(__name__)
+
 # Default Config Path ~/.config/senseye.yaml
-DEFAULT_CONFIG_PATH = (Path.home() / '.config' / 'senseye.yaml').absolute()
+DEFAULT_CONFIG_PATH = (Path.home() / '.config' / 'senseye.yml').absolute()
 
 
 def video_config(shape, cv_models=(CvModel.UNET_METRICS,), store=False):
@@ -28,26 +32,33 @@ def load_config(config_file=None):
     '''
     Load Config from a file, and incorporate environment variables
     '''
-    if not config_file:
-        config_file = DEFAULT_CONFIG_PATH
-
-    # Get the path for the config file
-    config_file = Path(config_file)
-
-    # Start with default config dict
-    config_dict = {
-        'api_url': None,
-        'api_auth_token': None,
-    }
-
-    # If config file exists, merge that in
-    if config_file.exists():
+    # Load config from specified filepath
+    if config_file:
         with open(config_file, 'r') as f:
-            deep_merge(yaml.load(f), config_dict)
+            config_file = yaml.safe_load(f)
+    # If unsuccessful, load from default filepath
+    if not config_file:
+        with open(DEFAULT_CONFIG_PATH, 'r') as f:
+            config_file = yaml.safe_load(f)
 
-    # Load Config from env variables and merge that in too
+    config_dict = config_file or {}
+
+    # Load config from env variables and merge that in too
     env_config = get_config_from_env_vars(prefix='SENSEYE_')
     deep_merge(env_config, config_dict)
+
+    # Generate JWT token and add to request metadata
+    try:
+        token = jwt.encode(
+            {'iss': config_dict['jwt']['key']},
+            config_dict['jwt']['secret'],
+            algorithm='HS256').decode("utf-8")
+        config_dict['request_metadata'] = [('authorization', f'Bearer {token}')]
+    except:
+        log.warning('''
+            JWT token could not be generated.
+            Ensure configuration fields `jwt.key` and `jwt.secret` are set.
+            You can obtain a key + secret pair from http://dev.senseye.co.''')
 
     # Return merged Config
     return config_dict

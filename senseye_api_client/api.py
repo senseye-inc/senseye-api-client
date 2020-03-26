@@ -1,12 +1,11 @@
-import grpc
-import jwt
 import logging
-import os
 import queue
 
-from senseye.common.common_pb2 import VideoStreamRequest, VideoStaticRequest, CvModel
+import grpc
+from senseye.common.common_pb2 import VideoStreamRequest, VideoStaticRequest
 from senseye.gateway.gateway_service_pb2_grpc import GatewayStub
 from senseye_cameras import Stream
+
 from . utils import video_config, load_config
 
 
@@ -14,48 +13,32 @@ log = logging.getLogger(__name__)
 
 
 class SenseyeApiClient():
-    def __init__(self, url=None, secure=False, certificate=None, store=False):
-        # Load API Config
-        config = load_config()
-
-        # add the jwt token to request metadata
-        try:
-            key = os.environ['SENSEYE_API_JWT_KEY']
-            secret = os.environ['SENSEYE_API_JWT_SECRET']
-            token = jwt.encode({'iss': key}, secret, algorithm='HS256').decode("utf-8")
-            config['request_metadata'] = [('authorization', f'Bearer {token}')]
-        except:
-            log.warning('''
-            JWT token could not be generated.
-            Ensure environment variables SENSEYE_API_JWT_KEY and SENSEYE_API_JWT_SECRET are set.
-            You can get a token/key from http://dev.senseye.co.''')
-
-        # add api url to the config
-        if url:
-            config['api_url'] = url
+    def __init__(self, config=None):
+        # Load API and Client config
+        config = load_config(config)
 
         self.config = config
         self.channel = None
         self.stub = None
-        self.secure = secure
-        self.certificate = certificate
-        self.store = store
 
     def connect(self):
         '''
         Connect this client to the server
         '''
-        if self.secure:
-            if not self.certificate:
-                log.error('Attempting to create a secure channel, but no certificate was provided.')
+        secure = self.config.get('secure')
 
-            with open(self.certificate, 'rb') as f:
+        if secure and secure.get('enabled') == True:
+            if not secure.get('cert_file'):
+                log.error('Attempting to create a secure channel, but no certificate was provided.')
+                exit()
+
+            with open(secure.get('cert_file'), 'rb') as f:
                 trusted_certs = f.read()
 
             ssl_credentials = grpc.ssl_channel_credentials(root_certificates=trusted_certs)
-            self.channel = grpc.secure_channel(self.config['api_url'], ssl_credentials)
+            self.channel = grpc.secure_channel(self.config['grpc_url'], ssl_credentials)
         else:
-            self.channel = grpc.insecure_channel(self.config['api_url'])
+            self.channel = grpc.insecure_channel(self.config['grpc_url'])
 
         self.stub = GatewayStub(self.channel)
 
@@ -77,7 +60,7 @@ class SenseyeApiClient():
                 orm_experiments=[1],
                 video_uri=video_uri,
             ),
-            metadata=self.config['request_metadata']
+            metadata=self.config.get('request_metadata')
         )
 
     def camera_stream(self, camera_type, camera_id):
@@ -96,7 +79,7 @@ class SenseyeApiClient():
             writing=True,
         )
 
-        config = video_config((256, 256, 3), store=self.store)
+        config = video_config((256, 256, 3), store=self.config.get('store_video', False))
 
         def gen():
             yield VideoStreamRequest(
@@ -109,4 +92,4 @@ class SenseyeApiClient():
 
         return self.stub.AnalyzeVideoStream(
             gen(),
-            metadata=self.config['request_metadata'])
+            metadata=self.config.get('request_metadata'))

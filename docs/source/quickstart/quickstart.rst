@@ -1,67 +1,60 @@
 Introduction
 ============
 
-The senseye-api-client repository makes it easy to connect to and interact with Senseye's Eucalyptus API.
-
+The ``senseye-api-client`` repository makes it easy to connect to and interact with Senseye's Eucalyptus API.
 
 Dependencies
 ============
 
-senseye-api-client requires FFMPEG for h264 streaming.
+``senseye-api-client`` requires FFMPEG for h264 streaming.
 
-Install ffmpeg via:
+Install ``ffmpeg`` for:
+- Windows:
+  .. code-block:: console
+    choco install ffmpeg
+- Mac:
+  .. code-block:: console
+    brew install ffmpeg
+- Linux:
+  .. code-block:: console
+    sudo apt-get install ffmpeg
 
-- Windows: ``choco install ffmpeg``
-- Mac: ``brew install ffmpeg``
-- Linux: ``sudo apt-get install ffmpeg``
+Other Python dependencies, along with the client library, can be installed via:
+.. code-block:: console
+  pip install .
 
-Other Python dependencies (and the client library) can be installed via:
+How to Get Started
+===================
 
-``pip install .``
+1. Clone the repository and navigate to its root directory:
+  .. code-block:: console
+    git clone git@github.com:senseyeinc/senseye-api-client.git
 
-Using senseye-api-client
-=========================
+  .. code-block:: console
+    cd senseye-api-client
 
-1. Clone the repository
+2. Install the client library and its Python dependencies:
+  .. code-block:: console
+    pip install .
 
-``git clone git@github.com:senseyeinc/senseye-api-client.git``
-``cd senseye-api-client``
+3. Get an API key.
+  - Go to http://dev.senseye.co
 
-2. Install Client Library
+  - Login / Sign Up
 
-Run: ``python setup.py build_py``
-Run: ``pip install .``
+  - Create JWT Credentials
+      - Navigate to the "API Credentials" section of your dashboard.
 
-3. Get an API Key.
+      - Click on [+CREATE API CREDENTIAL] > [CREATE API CREDENTIAL]
 
-- Go to http://dev.senseye.co
+      - You should now have a **key** and **secret** pair.
 
-- Login/Sign Up
+  - Copy your key and secret into ``./examples/config.yml`` and save.
 
-- Create a JWT Key/Secret
+Now you can successfully make calls to our API using one of our examples:
+- ``camera_stream.py``
+- ``static_video.py``
 
-    Navigate to the 'API Credentials' section.
-
-    Click on '+CREATE API CREDENTIAL' > 'CREATE API CREDENTIAL' (no need to fill out the fields).
-
-    You should now have a 'key' and 'secret' pair.
-
-- Copy your key/secret into ./scripts/setup-client.sh.
-
-    The key should be pasted after `SENSEYE_API_JWT_KEY`.
-
-    The secret should be pasted after `SENSEYE_API_JWT_SECRET`.
-
-- Set up environment variables.
-
-Run: ``source ./scripts/setup-client.sh``
-
-3. Run sample client code
-
-Now you can successfully connect to our API.
-
-Example code can be found in the examples folder.
-
-For example, a simple camera stream can be sent to our API via:
-
-``python examples/camera_stream.py``
+For example, the following will open a bidirectional stream with our servers, sending live video frames from your camera while we send back cognitive load data in response:
+.. code-block:: console
+  python examples/camera_stream.py
