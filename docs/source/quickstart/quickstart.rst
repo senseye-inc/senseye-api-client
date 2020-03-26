@@ -9,52 +9,50 @@ Dependencies
 ``senseye-api-client`` requires FFMPEG for h264 streaming.
 
 Install ``ffmpeg`` for:
-- Windows:
-  .. code-block:: console
-    choco install ffmpeg
-- Mac:
-  .. code-block:: console
-    brew install ffmpeg
-- Linux:
-  .. code-block:: console
-    sudo apt-get install ffmpeg
 
-Other Python dependencies, along with the client library, can be installed via:
-.. code-block:: console
-  pip install .
+- Windows::
 
-How to Get Started
-===================
+   choco install ffmpeg
 
-1. Clone the repository and navigate to its root directory:
-  .. code-block:: console
-    git clone git@github.com:senseyeinc/senseye-api-client.git
+- Mac::
 
-  .. code-block:: console
-    cd senseye-api-client
+   brew install ffmpeg
 
-2. Install the client library and its Python dependencies:
-  .. code-block:: console
-    pip install .
+- Linux::
 
-3. Get an API key.
-  - Go to http://dev.senseye.co
+   sudo apt-get install ffmpeg
 
-  - Login / Sign Up
+Python dependencies are installed along with the client library.
 
-  - Create JWT Credentials
-      - Navigate to the "API Credentials" section of your dashboard.
+Getting Started
+===============
 
-      - Click on [+CREATE API CREDENTIAL] > [CREATE API CREDENTIAL]
+1. Clone the repository and navigate to its root directory::
 
-      - You should now have a **key** and **secret** pair.
+   git clone git@github.com:senseyeinc/senseye-api-client.git && cd senseye-api-client
 
-  - Copy your key and secret into ``./examples/config.yml`` and save.
+2. Install the client library and its Python dependencies::
 
-Now you can successfully make calls to our API using one of our examples:
-- ``camera_stream.py``
-- ``static_video.py``
+   pip install .
 
-For example, the following will open a bidirectional stream with our servers, sending live video frames from your camera while we send back cognitive load data in response:
-.. code-block:: console
-  python examples/camera_stream.py
+3. Get an API key:
+
+   a. Go to http://dev.senseye.co
+
+   b. Login / Sign Up
+
+   c. Create JWT Credentials:
+
+      i. Navigate to the "API Credentials" section of your dashboard.
+
+      ii. Click on [+CREATE API CREDENTIAL] > [CREATE API CREDENTIAL]
+
+      iii. You should now have a **key** and **secret** pair.
+
+   d. Copy your key and secret into ``./examples/config.yml`` and save.
+
+Now you can successfully make calls to our API using one of our examples under ``./examples``.
+
+For instance, the following will perform bidirectional streaming between your client and our servers, sending live video frames from your camera while we send back cognitive load data in response::
+
+   python examples/camera_stream.py
