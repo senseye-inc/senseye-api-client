@@ -38,8 +38,13 @@ def load_config(config_file=None):
             config_file = yaml.safe_load(f)
     # If unsuccessful, load from default filepath
     if not config_file:
-        with open(DEFAULT_CONFIG_PATH, 'r') as f:
-            config_file = yaml.safe_load(f)
+        try:
+            with open(DEFAULT_CONFIG_PATH, 'r') as f:
+                config_file = yaml.safe_load(f)
+        except:
+            log.error(f'''
+                Defaulting to config path {DEFAULT_CONFIG_PATH} failed!
+                Cannot import configuration settings''')
 
     config_dict = config_file or {}
 

@@ -51,7 +51,8 @@ setup(
     },
     install_requires=[
         'grpcio',
-        'senseye-cameras==v1.0.4',
+        'grpcio-tools',
+        'senseye-cameras>=v1.0.8',
         'pyyaml',
         'pyjwt',
     ],
