@@ -48,8 +48,8 @@ def load_config(config_file=None):
 
     config_dict = config_file or {}
 
-    # Load config from env variables and merge that in too
-    env_config = get_config_from_env_vars(prefix='SENSEYE_')
+    # Load config from env variables and merge that in with file configs
+    env_config = get_config_from_env_vars()
     deep_merge(env_config, config_dict)
 
     # Generate JWT token and add to request metadata
@@ -65,43 +65,37 @@ def load_config(config_file=None):
             Ensure configuration fields `jwt.key` and `jwt.secret` are set.
             You can obtain a key + secret pair from http://dev.senseye.co.''')
 
-    # Return merged Config
+    # Return merged config
     return config_dict
 
 
-# TODO this is from common
-def get_config_from_env_vars(env=os.environ, prefix='EUC_'):
+def get_config_from_env_vars(env=os.environ, prefix='SENSEYE_'):
     '''
-    Inject environment variables into a destination dictionary
+    Parse environment variables into a nested dictionary.
     '''
     ret = {}
+
     for key, value in env.items():
         if not key.startswith(prefix):
             continue
 
-        # break path down i.e.
-        # EUC_MY_KEY1__MY_KEY2' => ['my_key1', 'my_key2']
+        # break path down
+        # e.g. SENSEYE_MY_KEY1__MY_KEY2' => ['my_key1', 'my_key2']
         path = key\
             .replace(prefix, '')\
             .lower()\
             .split('__')
 
-        # Set the nested key
         set_nested(ret, path, value)
 
     return ret
 
 
-# TODO this is from common
 def deep_merge(source, destination):
-    """
-    run me with nosetests --with-doctest file.py
-
-    >>> a = { 'first' : { 'all_rows' : { 'pass' : 'dog', 'number' : '1' } } }
-    >>> b = { 'first' : { 'all_rows' : { 'fail' : 'cat', 'number' : '5' } } }
-    >>> merge(b, a) == { 'first' : { 'all_rows' : { 'pass' : 'dog', 'fail' : 'cat', 'number' : '5' } } }
-    True
-    """
+    '''
+    Recursively merges two dictionaries together. Values in `source` will
+    overwrite those in `destination`.
+    '''
     for key, value in source.items():
         if isinstance(value, dict):
             # get node or create one
@@ -113,11 +107,10 @@ def deep_merge(source, destination):
     return destination
 
 
-# TODO this is from common
 def set_nested(input_dict, nested_key, value):
     '''
-    Set a nested key, i.e.
-    nested_get({'a': {'b': 1}}, ['a', 'b'], 2) => {'a': {'b': 2}}
+    Set a nested key
+    e.g. nested_get({'a': {'b': 1}}, ['a', 'b'], 2) => {'a': {'b': 2}}
     '''
     current_dict = input_dict
     for k in nested_key[:-1]:

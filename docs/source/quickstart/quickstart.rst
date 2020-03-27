@@ -1,39 +1,37 @@
 Introduction
 ============
 
-The ``senseye-api-client`` repository makes it easy to connect to and interact with Senseye's Eucalyptus API.
+The Senseye API Client package makes it easy to connect to and interact with Senseye's Eucalyptus API.
 
-Dependencies
+Requirements
 ============
 
-``senseye-api-client`` requires FFMPEG for h264 streaming.
+- Python 3.6+
 
-Install ``ffmpeg`` for:
+- FFmpeg (required for h264 streaming):
 
-- Windows::
+   - Windows::
 
-   choco install ffmpeg
+         choco install ffmpeg
 
-- Mac::
+   - Mac::
 
-   brew install ffmpeg
+         brew install ffmpeg
 
-- Linux::
+   - Linux::
 
-   sudo apt-get install ffmpeg
-
-Python dependencies are installed along with the client library.
+         sudo apt-get install ffmpeg
 
 Getting Started
 ===============
 
-1. Clone the repository and navigate to its root directory::
+1. Clone the `senseye-api-client` repository and navigate to its root directory::
 
-   git clone git@github.com:senseyeinc/senseye-api-client.git && cd senseye-api-client
+      git clone git@github.com:senseyeinc/senseye-api-client.git && cd senseye-api-client
 
-2. Install the client library and its Python dependencies::
+2. Install the client library along with its Python dependencies::
 
-   pip install .
+      pip install grpcio && pip install grpcio-tools && pip install .
 
 3. Get an API key:
 
@@ -43,16 +41,20 @@ Getting Started
 
    c. Create JWT Credentials:
 
-      i. Navigate to the "API Credentials" section of your dashboard.
+      - Navigate to the "API Credentials" section of your dashboard.
 
-      ii. Click on [+CREATE API CREDENTIAL] > [CREATE API CREDENTIAL]
+      - Click on [+CREATE API CREDENTIAL] > [CREATE API CREDENTIAL]
 
-      iii. You should now have a **key** and **secret** pair.
+      - You should now have a **key** and **secret** pair.
 
    d. Copy your key and secret into ``./examples/config.yml`` and save.
 
-Now you can successfully make calls to our API using one of our examples under ``./examples``.
+Now you can successfully make calls to Senseye's API server using any of the examples provided under ``./examples``.
 
-For instance, the following will perform bidirectional streaming between your client and our servers, sending live video frames from your camera while we send back cognitive load data in response::
+Examples
+========
 
-   python examples/camera_stream.py
+::
+   python ./examples/camera_stream.py
+
+This will send a gRPC request to Senseye's API server and initiate a bidirectional stream. If successful, the client will begin sending video frames from your camera feed (provided your permissions), and the API server will in turn respond with cognitive load data for every batch of frames it receives and analyzes.
