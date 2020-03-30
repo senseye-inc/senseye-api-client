@@ -55,6 +55,7 @@ setup(
         'senseye-cameras>=v1.0.8',
         'pyyaml',
         'pyjwt',
+        'requests',
     ],
     project_urls={
         "Homepage": "http://senseye.co/",

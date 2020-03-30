@@ -54,7 +54,7 @@ Now you can successfully make calls to Senseye's API server using any of the exa
 Examples
 ========
 
-::
-   python ./examples/camera_stream.py
+.. literalinclude:: ../../examples/camera_stream.py
+    :language: python
 
 This will send a gRPC request to Senseye's API server and initiate a bidirectional stream. If successful, the client will begin sending video frames from your camera feed (provided your permissions), and the API server will in turn respond with cognitive load data for every batch of frames it receives and analyzes.
