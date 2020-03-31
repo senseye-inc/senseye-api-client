@@ -3,7 +3,7 @@ from setuptools import setup
 from setuptools.command.build_py import build_py
 
 
-PROTO_VERSION = 'release/v0.3.1'
+PROTO_VERSION = 'branch/develop'
 
 readme = str(Path(Path(__file__).parent.absolute(), 'README.md'))
 long_description = open(readme, encoding='utf-8').read()
@@ -52,6 +52,7 @@ setup(
     install_requires=[
         'grpcio',
         'grpcio-tools',
+        'google-api-python-client',
         'senseye-cameras>=v1.0.8',
         'pyyaml',
         'pyjwt',

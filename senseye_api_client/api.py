@@ -7,6 +7,7 @@ from senseye.gateway.gateway_service_pb2_grpc import GatewayStub
 from senseye_cameras import Stream
 
 from . utils import video_config, load_config
+from . video_task import VideoTask
 
 
 log = logging.getLogger(__name__)
@@ -53,7 +54,7 @@ class SenseyeApiClient():
             log.info("Connecting API to server")
             self.connect()
 
-        yield self.stub.AnalyzeVideo(
+        id = self.stub.AnalyzeVideo(
             VideoStaticRequest(
                 cv_models=[1],
                 insight_models=[1],
@@ -61,7 +62,8 @@ class SenseyeApiClient():
                 video_uri=video_uri,
             ),
             metadata=self.config.get('request_metadata')
-        )
+        ).result
+        return VideoTask(self.stub, id)
 
     def camera_stream(self, camera_type, camera_id):
         if not self.channel:
