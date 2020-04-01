@@ -8,7 +8,6 @@
 
 <p align="center">
  <img src="https://img.shields.io/github/v/release/senseye-inc/senseye-api-client?label=release">
- <img src="https://img.shields.io/github/license/sensey-inc/senseye-api-client">
 </p>
 
 This version of the Senseye API Client supports API versions >= v0.3.2.
