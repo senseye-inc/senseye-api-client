@@ -10,22 +10,22 @@ Requirements
 
 - FFmpeg (required for h264 streaming):
 
-   - Windows::
+  - Windows::
 
-         choco install ffmpeg
+      choco install ffmpeg
 
-   - Mac::
+  - Mac::
 
-         brew install ffmpeg
+      brew install ffmpeg
 
-   - Linux::
+  - Linux::
 
-         sudo apt-get install ffmpeg
+      sudo apt-get install ffmpeg
 
 Getting Started
 ===============
 
-1. Clone the `senseye-api-client` repository and navigate to its root directory::
+1. Clone the ``senseye-api-client`` repository and navigate to its root directory::
 
       git clone git@github.com:senseyeinc/senseye-api-client.git && cd senseye-api-client
 
