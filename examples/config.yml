@@ -1,0 +1,8 @@
+server_address: apeye.senseye.co:27000
+secure:
+  enabled: False
+  cert_file:
+jwt:
+  key: <REPLACE_THIS>
+  secret: <REPLACE_THIS>
+store_video: False
