@@ -24,7 +24,7 @@ class SenseyeApiClient():
 
     def connect(self):
         '''
-        Connect this client to the server
+        Connect this client to the API server
         '''
         secure = self.config.get('secure')
 
@@ -37,9 +37,9 @@ class SenseyeApiClient():
                 trusted_certs = f.read()
 
             ssl_credentials = grpc.ssl_channel_credentials(root_certificates=trusted_certs)
-            self.channel = grpc.secure_channel(self.config['grpc_url'], ssl_credentials)
+            self.channel = grpc.secure_channel(self.config['server_address'], ssl_credentials)
         else:
-            self.channel = grpc.insecure_channel(self.config['grpc_url'])
+            self.channel = grpc.insecure_channel(self.config['server_address'])
 
         self.stub = GatewayStub(self.channel)
 
@@ -51,8 +51,10 @@ class SenseyeApiClient():
 
     def video(self, video_uri):
         if not self.channel:
-            log.info("Connecting API to server")
+            log.info("Connecting to API server")
             self.connect()
+
+        request_metadata = self.config.get('request_metadata')
 
         id = self.stub.AnalyzeVideo(
             VideoStaticRequest(
@@ -61,13 +63,14 @@ class SenseyeApiClient():
                 orm_experiments=[1],
                 video_uri=video_uri,
             ),
-            metadata=self.config.get('request_metadata')
+            metadata=request_metadata
         ).result
-        return VideoTask(self.stub, id)
+
+        return VideoTask(self.stub, id, metadata=request_metadata)
 
     def camera_stream(self, camera_type, camera_id):
         if not self.channel:
-            log.info("Connecting API to server")
+            log.info("Connecting to API server")
             self.connect()
 
         h264_chunks = queue.Queue(maxsize=100)

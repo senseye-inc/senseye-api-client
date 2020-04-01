@@ -13,11 +13,7 @@ CAMERA_TYPE = 'usb'     # generic usb camera
 # CAMERA_TYPE = 'ueye'    # IDS ueye camera
 # CAMERA_TYPE = 'pylon'   # Basler pylon camera
 
-start_time = time.time()
 api = SenseyeApiClient(config=(Path(__file__).parent / 'config.yml'))
-
-print(f'Start-up time: {time.time() - start_time}')
-
 response_number = 0
 start_time = time.time()
 
