@@ -11,6 +11,8 @@
  <img src="https://img.shields.io/github/license/sensey-inc/senseye-api-client">
 </p>
 
+This version of the Senseye API Client supports API versions >= v0.3.2.
+
 ## Documentation
 
 Our documentation can be found at: https://senseye-api-client.readthedocs.io/
@@ -19,7 +21,9 @@ For FAQs please visit https://support.senseye.co.
 
 ## Contributing
 
-To report an issue or to contribute, please visit: https://github.com/senseyeinc/senseye-api-client. Before submitting a bug or pull request, please take a second to review the [contribution guidelines](https://www.youtube.com).
+Before submitting a bug or pull request, please take a second to review the [contribution guidelines](https://support.senseye.co)
+
+If you would like to generate language-specific stubs from our API protos, please download the latest protos from [here](https://eucalyptus-protobuf.s3.amazonaws.com/release/v0.3.2.zip)
 
 ## License
 

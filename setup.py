@@ -3,7 +3,7 @@ from setuptools import setup
 from setuptools.command.build_py import build_py
 
 
-PROTO_VERSION = 'branch/develop'
+PROTO_VERSION = 'release/v0.3.2'
 
 readme = str(Path(Path(__file__).parent.absolute(), 'README.md'))
 long_description = open(readme, encoding='utf-8').read()
