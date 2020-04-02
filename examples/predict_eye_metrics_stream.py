@@ -17,7 +17,7 @@ api = SenseyeApiClient(config=(Path(__file__).parent / 'config.yml'))
 response_number = 0
 start_time = time.time()
 
-for response in api.camera_stream(CAMERA_TYPE, CAMERA_ID):
+for response in api.stream_eye_metrics(CAMERA_TYPE, CAMERA_ID):
     response_number += 1
     fps = response_number / (time.time() - start_time)
     print(f"Receiving response {response_number}, overall fps: {fps}, contents: {response}")
