@@ -3,7 +3,7 @@ from setuptools import setup
 from setuptools.command.build_py import build_py
 
 
-PROTO_VERSION = 'branch/develop'
+PROTO_VERSION = 'release/v0.4.0'
 
 readme = str(Path(Path(__file__).parent.absolute(), 'README.md'))
 long_description = open(readme, encoding='utf-8').read()
@@ -34,7 +34,7 @@ setup(
     name='senseye-api-client',
     description='Client code for Senseye\'s Eucalyptus API.',
     author='Senseye Inc',
-    version='0.1.1',
+    version='0.2.0',
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=[
