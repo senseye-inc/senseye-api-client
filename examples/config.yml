@@ -3,6 +3,6 @@ secure:
   enabled: False
   cert_file:
 jwt:
-  key: <REPLACE_THIS>
-  secret: <REPLACE_THIS>
+  key: <REPLACE THIS>
+  secret: <REPLACE THIS>
 store_video: False

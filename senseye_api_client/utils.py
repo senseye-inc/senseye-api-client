@@ -1,31 +1,15 @@
 import logging
 import os
-import uuid
 from pathlib import Path
 
 import jwt
 import yaml
-
-from senseye.common.common_pb2 import VideoConfig, CvModel
 
 
 log = logging.getLogger(__name__)
 
 # Default Config Path ~/.config/senseye.yaml
 DEFAULT_CONFIG_PATH = (Path.home() / '.config' / 'senseye.yml').absolute()
-
-
-def video_config(shape, cv_models=(CvModel.UNET_METRICS,), store=False):
-    return VideoConfig(
-        cv_models=cv_models,
-        width=shape[1],
-        height=shape[0],
-        channels=1 if len(shape) == 2 else shape[2],
-        video_id=str(uuid.uuid4()),
-
-        # this will save video to senseye's s3 bucket at eucalyptus-dev
-        store=store,
-    )
 
 
 def load_config(config_file=None):

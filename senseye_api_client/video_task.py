@@ -1,21 +1,32 @@
-from senseye.gateway.gateway_service_pb2 import VideoTaskRequest, VideoTaskResponse
-# from senseye.common.common_pb2 import VideoStreamResponse
+from senseye.common.common_pb2 import VideoTask as VideoTaskProto
 
 
 class VideoTask():
-    def __init__(self, stub, task_id, metadata=None):
+    def __init__(self, stub, id, metadata=None):
+        # Stub to call on for updates
         self.stub = stub
-        self.task_id = task_id
-        self.metadata = metadata
 
-    def get_task_id(self):
-        return self.task_id
+        # ID of the task
+        self.id = id
+
+        # Pointer to the GRPC representation of a task
+        self.task = VideoTaskProto(id=id)
+
+        # Metadata to send with each request
+        self.metadata= metadata
+
+    def get_task(self):
+        '''Get the task Proto object'''
+        return self.stub.GetVideoTask(self.task, metadata=self.metadata)
 
     def get_status(self):
-        return self.stub.CheckVideoStatus(VideoTaskRequest(id=self.task_id), metadata=self.metadata).result
+        '''Fetch and return the Status of this task'''
+        return self.get_task().status
 
     def get_result(self):
-        return self.stub.GetVideoResult(VideoTaskRequest(id=self.task_id), metadata=self.metadata)
+        '''Fetch and return the Result of this task'''
+        return self.stub.GetVideoTaskResult(self.task, metadata=self.metadata)
 
     def cancel(self):
-        return self.stub.CancelVideoTask(VideoTaskRequest(id=self.task_id), metadata=self.metadata).result
+        '''attempt to cancel the task'''
+        self.stub.CancelVideoTask(self.task, metadata=self.metadata)

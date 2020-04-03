@@ -1,12 +1,13 @@
 import logging
 import queue
+import uuid
 
 import grpc
-from senseye.common.common_pb2 import VideoStreamRequest, VideoStaticRequest
+from senseye.common.common_pb2 import VideoStreamRequest, VideoRequest
 from senseye.gateway.gateway_service_pb2_grpc import GatewayStub
 from senseye_cameras import Stream
 
-from . utils import video_config, load_config
+from . utils import load_config
 from . video_task import VideoTask
 
 
@@ -15,8 +16,11 @@ log = logging.getLogger(__name__)
 
 class SenseyeApiClient():
     def __init__(self, config=None):
-        # Load API and Client config
-        config = load_config(config)
+        if isinstance(config, dict):
+            config = config.copy()
+        else:
+            # Load API and Client config
+            config = load_config(config)
 
         self.config = config
         self.channel = None
@@ -49,33 +53,46 @@ class SenseyeApiClient():
         '''
         self.channel.close()
 
-    def video(self, video_uri):
+    def predict_bac(self, video_uri):
+        return self._predict_feature('PredictBAC', video_uri)
+
+    def predict_fatigue(self, video_uri):
+        return self._predict_feature('PredictFatigue', video_uri)
+
+    def predict_cogload(self, video_uri):
+        return self._predict_feature('PredictCognitiveLoad', video_uri)
+
+    def stream_cog_load(self, camera_type, camera_id):
+        return self._camera_stream('PredictCognitiveLoadStream', camera_type, camera_id)
+
+    def stream_eye_metrics(self, camera_type, camera_id):
+        return self._camera_stream('GetEyeMetricsStream', camera_type, camera_id)
+
+    def _predict_feature(self, fn_name, video_uri):
+        # Get the stub Function
         if not self.channel:
             log.info("Connecting to API server")
             self.connect()
 
-        request_metadata = self.config.get('request_metadata')
+        stub_fn = getattr(self.stub, fn_name)
 
-        id = self.stub.AnalyzeVideo(
-            VideoStaticRequest(
-                cv_models=[1],
-                insight_models=[1],
-                orm_experiments=[1],
-                video_uri=video_uri,
-            ),
-            metadata=request_metadata
-        ).result
+        metadata = self.config.get('request_metadata')
+        id = stub_fn(
+            VideoRequest(video_uri=video_uri),
+            metadata=metadata
+        ).id
+        return VideoTask(self.stub, id, metadata=metadata)
 
-        return VideoTask(self.stub, id, metadata=request_metadata)
-
-    def camera_stream(self, camera_type, camera_id):
+    def _camera_stream(self, fn_name, camera_type, camera_id):
+        # Get the Function name to call
         if not self.channel:
             log.info("Connecting to API server")
             self.connect()
 
+        stub_fn = getattr(self.stub, fn_name)
         h264_chunks = queue.Queue(maxsize=100)
 
-        s = Stream(
+        Stream(
             input_type=camera_type, id=camera_id,
             output_type='h264_pipe', output_config={
                 'callback': lambda chunk: h264_chunks.put(chunk),
@@ -84,17 +101,19 @@ class SenseyeApiClient():
             writing=True,
         )
 
-        config = video_config((256, 256, 3), store=self.config.get('store_video', False))
+        # Create a UUID for video
+        if self.config.get('store_video', False):
+            id = uuid.uuid4()
+        else:
+            id = None
 
+        # Create Generator Function for stream
         def gen():
-            yield VideoStreamRequest(
-                video_config=config
-            )
-
             while True:
                 frame = h264_chunks.get(block=True, timeout=10)
-                yield VideoStreamRequest(content=frame)
+                yield VideoStreamRequest(content=frame, video_id=id)
 
-        return self.stub.AnalyzeVideoStream(
+        return stub_fn(
             gen(),
-            metadata=self.config.get('request_metadata'))
+            metadata=self.config.get('request_metadata')
+        )
