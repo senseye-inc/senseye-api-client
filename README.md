@@ -10,7 +10,7 @@
  <img src="https://img.shields.io/github/v/release/senseye-inc/senseye-api-client?label=release">
 </p>
 
-This version of the Senseye API Client supports API versions >= v0.3.2.
+This version of the Senseye API Client supports API versions >= v0.4.0.
 
 ## Documentation
 
