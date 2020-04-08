@@ -18,11 +18,13 @@ Our documentation can be found at: https://senseye-api-client.readthedocs.io/
 
 For FAQs please visit https://support.senseye.co.
 
+Currently, the best API documentation available is to read through the protos directly. They can be downloaded from [here](https://eucalyptus-protobuf.s3.amazonaws.com/release/v0.4.0.zip)
+
 ## Contributing
 
 Before submitting a bug or pull request, please take a second to review the [contribution guidelines](https://support.senseye.co)
 
-If you would like to generate language-specific stubs from our API protos, please download the latest protos from [here](https://eucalyptus-protobuf.s3.amazonaws.com/release/v0.3.2.zip)
+If you would like to generate language-specific stubs from our API protos, please download the latest protos from [here](https://eucalyptus-protobuf.s3.amazonaws.com/release/v0.4.0.zip)
 
 ## License
 
