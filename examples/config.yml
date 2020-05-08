@@ -5,4 +5,3 @@ secure:
 jwt:
   key: <REPLACE THIS>
   secret: <REPLACE THIS>
-store_video: False

@@ -33,4 +33,4 @@ class ApiTest(IntegrationTest):
                 break
 
         nt.assert_equal(task.get_status(), 'SUCCESS')
-        nt.assert_equal(len(task.get_result().results), 257)
+        nt.assert_equal(len(task.get_result().results), 1)

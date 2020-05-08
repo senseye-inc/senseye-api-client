@@ -78,7 +78,7 @@ class SenseyeApiClient():
 
         metadata = self.config.get('request_metadata')
         id = stub_fn(
-            VideoRequest(video_uri=video_uri),
+            VideoRequest(video_uri=video_uri, video_id=str(uuid.uuid4())),
             metadata=metadata
         ).id
         return VideoTask(self.stub, id, metadata=metadata)
@@ -91,6 +91,7 @@ class SenseyeApiClient():
 
         stub_fn = getattr(self.stub, fn_name)
         h264_chunks = queue.Queue(maxsize=100)
+        video_id = str(uuid.uuid4())
 
         Stream(
             input_type=camera_type, id=camera_id,
@@ -101,17 +102,11 @@ class SenseyeApiClient():
             writing=True,
         )
 
-        # Create a UUID for video
-        if self.config.get('store_video', False):
-            id = uuid.uuid4()
-        else:
-            id = None
-
         # Create Generator Function for stream
         def gen():
             while True:
                 frame = h264_chunks.get(block=True, timeout=10)
-                yield VideoStreamRequest(content=frame, video_id=id)
+                yield VideoStreamRequest(content=frame, video_id=video_id)
 
         return stub_fn(
             gen(),
