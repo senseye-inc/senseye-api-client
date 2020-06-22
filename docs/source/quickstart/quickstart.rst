@@ -31,7 +31,7 @@ Getting Started
 
 2. Install the client library along with its Python dependencies::
 
-      pip install grpcio && pip install grpcio-tools && pip install .
+      pip install grpcio && pip install grpcio-tools && python setup.py build_py && pip install .
 
 3. Get an API key:
 

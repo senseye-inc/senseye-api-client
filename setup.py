@@ -3,7 +3,7 @@ from setuptools import setup
 from setuptools.command.build_py import build_py
 
 
-PROTO_VERSION = 'release/v0.4.0'
+PROTO_VERSION = 'release/v0.4.1'
 
 readme = str(Path(Path(__file__).parent.absolute(), 'README.md'))
 long_description = open(readme, encoding='utf-8').read()
@@ -20,7 +20,7 @@ class BuildPyCommand(build_py):
         from scripts.build_protos import get_protos, build_protos
 
         # Fetch Proto Files
-        get_protos(PROTO_VERSION, output_path='build/protobuf')
+        get_protos(PROTO_VERSION, output_path='build')
 
         # Build Proto Files
         build_protos(
@@ -39,11 +39,13 @@ setup(
     long_description_content_type='text/markdown',
     packages=[
         'senseye',
+        'senseye.common',
         'senseye_api_client',
         'senseye_api_client.interceptors',
     ],
     package_dir={
         'senseye': 'build/senseye',
+        'senseye.common': 'build/senseye/common',
         'senseye_api_client': 'senseye_api_client',
     },
     package_data={

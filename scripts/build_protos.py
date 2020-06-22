@@ -65,3 +65,6 @@ def build_protos(input_path='build/protobuf', output_path='senseye_api_client/pr
 
         with open(output_path / 'senseye/__init__.py', 'w') as f:
             f.write('\n')
+
+        with open(output_path / 'senseye/common/__init__.py', 'w') as f:
+            f.write('\n')

@@ -8,6 +8,7 @@ pipelines:
     - step:
         script: # Modify the commands below to build your repository
             - pip install grpcio grpcio-tools
+            - python setup.py build_py
             - pip install . --extra-index-url=http://senseye:Three33@pypi.senseye.co --trusted-host=pypi.senseye.co
             - pip freeze > requirements.txt
         artifacts:
@@ -25,4 +26,3 @@ pipelines:
           # fossa test: If there are issues, it prnts them on stdout and exits with code 1
           # add next line in when we are ready to block builds if fossa fails
           - FOSSA_API_KEY=$FOSSA_KEY fossa test
-
