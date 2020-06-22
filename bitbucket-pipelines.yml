@@ -7,9 +7,8 @@ pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository
-            - pip install grpcio grpcio-tools
-            - python setup.py build_py
-            - pip install . --extra-index-url=http://senseye:Three33@pypi.senseye.co --trusted-host=pypi.senseye.co
+            - pip install invoke
+            - inv install
             - pip freeze > requirements.txt
         artifacts:
             - requirements.txt

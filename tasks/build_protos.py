@@ -1,7 +1,9 @@
-from io import BytesIO
 import re
+import requests
+from io import BytesIO
 from zipfile import ZipFile
 from pathlib import Path
+from grpc_tools import protoc
 
 
 PROTO_URL = f'http://eucalyptus-protobuf.s3-website-us-east-1.amazonaws.com'
@@ -11,10 +13,10 @@ def get_protos(version, output_path='build/protobuf'):
     """
     Fetch proto files from a remote url
     """
-    import requests
-
     # Get ZIP Binary Data from net
-    zip_data = requests.get(f'{PROTO_URL}/{version}.zip').content
+    complete_url = f'{PROTO_URL}/{version}.zip'
+    print(f"Getting protos at {complete_url}")
+    zip_data = requests.get(complete_url).content
 
     # Zip data must be BytesIO
     zip_data_io = BytesIO()
@@ -28,7 +30,6 @@ def build_protos(input_path='build/protobuf', output_path='senseye_api_client/pr
     """
     Build all proto files
     """
-    from grpc_tools import protoc
 
     output_path = Path(output_path).absolute()
     input_path = Path(input_path).absolute()

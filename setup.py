@@ -1,34 +1,8 @@
 from pathlib import Path
 from setuptools import setup
-from setuptools.command.build_py import build_py
-
-
-PROTO_VERSION = 'release/v0.4.1'
 
 readme = str(Path(Path(__file__).parent.absolute(), 'README.md'))
 long_description = open(readme, encoding='utf-8').read()
-
-# Temporary directory to build 'senseye' package
-Path('build/senseye').mkdir(exist_ok=True, parents=True)
-
-
-class BuildPyCommand(build_py):
-    """
-    Build Hook
-    """
-    def run(self):
-        from scripts.build_protos import get_protos, build_protos
-
-        # Fetch Proto Files
-        get_protos(PROTO_VERSION, output_path='build')
-
-        # Build Proto Files
-        build_protos(
-            input_path='build/protobuf',
-            output_path='build'
-        )
-
-        build_py.run(self)
 
 setup(
     name='senseye-api-client',
@@ -59,14 +33,11 @@ setup(
         'pyyaml',
         'pyjwt',
         'requests',
+        'invoke',
     ],
     project_urls={
         "Homepage": "http://senseye.co/",
         "Documentation": "https://senseye-api-client.readthedocs.io/en/latest/",
         "Source Code": "https://github.com/senseyeinc/senseye-api-client",
     },
-    cmdclass={
-        # Custom Build hook
-        'build_py': BuildPyCommand,
-    }
 )
