@@ -8,7 +8,7 @@ setup(
     name='senseye-api-client',
     description='Client code for Senseye\'s Eucalyptus API.',
     author='Senseye Inc',
-    version='0.2.1',
+    version='0.2.2',
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=[

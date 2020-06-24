@@ -5,14 +5,19 @@ from invoke import task
 from pathlib import Path
 
 
-PROTO_VERSION = 'v0.4.1'
+LATEST_RELEASE = 'release/v0.4.1'
 
 @task()
-def install(c):
+def install(c, branch=None):
     """
-    Build protos
-    Install
+    Gets protos, builds protos, then installs the client.
+    Protos can be specified using the --branch parameter.
+    For example: `inv install --branch release/v0.3.0` will install protos from a previous version.
     """
+
+    if branch is None:
+        branch = LATEST_RELEASE
+
     # directory that contains setup.py
     setup_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
@@ -36,11 +41,11 @@ def install(c):
     from . build_protos import get_protos, build_protos
 
     # put protos into build dir
-    get_protos(f'release/{PROTO_VERSION}', output_path=build_path)
+    get_protos(branch, output_path=build_path)
 
     # build protos
     build_protos(
-        input_path=f'{build_path}/protobuf',
+        input_path=f'{build_path}',
         output_path=build_path
     )
 
