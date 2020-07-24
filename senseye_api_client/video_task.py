@@ -2,12 +2,15 @@ from senseye.common.common_pb2 import VideoTask as VideoTaskProto
 
 
 class VideoTask():
-    def __init__(self, stub, id, metadata=None):
+    def __init__(self, stub, id, video_id=None, metadata=None):
         # Stub to call on for updates
         self.stub = stub
 
         # ID of the task
         self.id = id
+
+        # ID of the video being saved
+        self.video_id = video_id
 
         # Pointer to the GRPC representation of a task
         self.task = VideoTaskProto(id=id)

@@ -77,11 +77,12 @@ class SenseyeApiClient():
         stub_fn = getattr(self.stub, fn_name)
 
         metadata = self.config.get('request_metadata')
+        video_id = str(uuid.uuid4())
         id = stub_fn(
-            VideoRequest(video_uri=video_uri, video_id=str(uuid.uuid4())),
+            VideoRequest(video_uri=video_uri, video_id=video_id),
             metadata=metadata
         ).id
-        return VideoTask(self.stub, id, metadata=metadata)
+        return VideoTask(self.stub, id, video_id=video_id, metadata=metadata)
 
     def _camera_stream(self, fn_name, camera_type, camera_id):
         # Get the Function name to call
