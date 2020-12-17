@@ -29,9 +29,9 @@ Getting Started
 
       git clone git@github.com:senseyeinc/senseye-api-client.git && cd senseye-api-client
 
-2. Install the client library along with its Python dependencies::
+2. Install the setup packages and client library along with its Python dependencies::
 
-      pip install invoke && inv install
+      pip install -r requirements.txt && inv install
 
 3. Get an API key:
 

@@ -10,7 +10,7 @@
  <img src="https://img.shields.io/github/v/release/senseye-inc/senseye-api-client?label=release">
 </p>
 
-This version of the Senseye API Client supports API versions >= v0.4.0.
+This version of senseye-api-client supports Senseye API versions >= v0.4.0.
 
 ## Documentation
 
@@ -28,6 +28,6 @@ If you would like to generate language-specific stubs from our API protos, pleas
 
 ## License
 
-Senseye-Api-Client is available under the [BSD License 2.0](https://opensource.org/licenses/BSD-3-Clause).
+senseye-api-client is available under the [BSD License 2.0](https://opensource.org/licenses/BSD-3-Clause).
 
-A full list of 3rd party software and respective licenses can be found [here](https://app.fossa.com/attribution/2a379db8-9508-409e-8601-033076b815c9)
+A full list of 3rd party software and respective licenses can be found [here](https://app.fossa.com/attribution/375f90d1-94c3-433e-aea1-a72f308c2922)

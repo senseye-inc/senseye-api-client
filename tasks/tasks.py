@@ -8,7 +8,7 @@ from pathlib import Path
 LATEST_RELEASE = 'release/v0.4.1'
 
 @task()
-def install(c, branch=None):
+def install(c, branch=None, user=False):
     """
     Gets protos, builds protos, then installs the client.
     Protos can be specified using the --branch parameter.
@@ -32,12 +32,6 @@ def install(c, branch=None):
     # create initial build dirs
     Path(f'{build_path}/senseye').mkdir(exist_ok=True, parents=True)
 
-    # make sure grpcio-tools is installed
-    c.run(f'\
-    {sys.executable} -m \
-    pip install grpcio-tools'
-    )
-
     from . build_protos import get_protos, build_protos
 
     # put protos into build dir
@@ -50,11 +44,8 @@ def install(c, branch=None):
     )
 
     # install senseye-api-client
-    c.run(f'\
-    {sys.executable} -m \
-    pip install . \
-    --upgrade'
-    )
+    user_opt = '--user' if user else ""
+    c.run(f'{sys.executable} -m pip install . --upgrade {user_opt}')
 
     # clean up build dir
     shutil.rmtree(build_path)

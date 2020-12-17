@@ -6,9 +6,11 @@ long_description = open(readme, encoding='utf-8').read()
 
 setup(
     name='senseye-api-client',
-    description='Client code for Senseye\'s Eucalyptus API.',
-    author='Senseye Inc',
     version='0.2.2',
+    description='Senseye API Python Client',
+    url='https://github.com/senseye-inc/senseye-api-client',
+    author='Senseye, Inc.',
+    license='BSD-3-Clause',
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=[
@@ -26,18 +28,15 @@ setup(
         "senseye": ["**/*.py"],
     },
     install_requires=[
-        'grpcio',
-        'grpcio-tools',
+        'grpcio>=1.34.0,<2.0',
         'google-api-python-client',
-        'senseye-cameras>=v1.0.8',
+        'senseye-cameras>=1.0.9',
         'pyyaml',
         'pyjwt',
-        'requests',
-        'invoke',
     ],
     project_urls={
         "Homepage": "http://senseye.co/",
         "Documentation": "https://senseye-api-client.readthedocs.io/en/latest/",
-        "Source Code": "https://github.com/senseyeinc/senseye-api-client",
+        "Source Code": "https://github.com/senseye-inc/senseye-api-client",
     },
 )
